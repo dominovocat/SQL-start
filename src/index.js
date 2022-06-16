@@ -1,8 +1,6 @@
 require("dotenv").config();
-const axios = require("axios");
 const { Client } = require("pg");
 const { migrate } = require("./migrate");
-const { userQueries, getUsersFromServer } = require("./users");
 
 const client = new Client();
 
@@ -10,32 +8,44 @@ const client = new Client();
   await client.connect();
 
   // await userQueries(client);
+
   // await migrate(client);
 
-  function insertRandomPhone(orderId){
-    const randomIndex = Math.floor(Math.random()*phones.length);
-    const randomPhone = phones[randomIndex];
-    const randomAmount = Math.floor(Math.random()*25);
+  async function insertRandomPhone(orderId, usedIndexes) {
+    let randomIndex = Math.floor(Math.random() * phones.rows.length);
+    if (usedIndexes.includes(randomIndex)){
+      randomIndex = Math.floor(Math.random() * phones.rows.length);
+    }
+    const randomPhone = phones.rows[randomIndex];
+    usedIndexes.push(randomIndex);
+
+    const randomAmount = Math.floor(Math.random() * 25);
 
     await client.query(`
       INSERT INTO phones_to_orders
-      (order_id,phone_id,amount)
+      (order_id, phone_id, amount)
       VALUES
-      (${orderId},${randomPhone.index},${randomAmount});
+      (${orderId}, ${randomPhone.id}, ${randomAmount});
     `);
   }
 
-  const users = await getUsers();
-  const phones = await getPhones();
 
+  const users = await client.query(`
+    SELECT * FROM users;
+  `);
+  const phones = await client.query(`
+    SELECT * FROM phones;
+  `);
 
-  for (const user of users) {
+  console.log(users);
+
+  for (const user of users.rows) {
     const userId = user.id;
 
     const ordersCount = Math.floor(Math.random() * 10);
 
     for (let i = 0; i < ordersCount; i++) {
-      const newOrder = await client.query(`
+      const { rows: [newOrder] } = await client.query(`
         INSERT INTO orders
         (user_id)
         VALUES
@@ -43,12 +53,12 @@ const client = new Client();
         RETURNING id;
       `);
 
-      const randomPhonesInOrder = Math.floor(Math.random()*5);
+      const randomPhonesInOrder = Math.floor(Math.random() * 5);
+      const usedIndexes = [];
 
-      for (let i=0; i<randomPhonesInOrder; i++){
-        insertRandomPhone(newOrder.id)
+      for (let i = 0; i < randomPhonesInOrder; i ++) {
+        await insertRandomPhone(newOrder.id, usedIndexes);
       }
-
     }
   }
 

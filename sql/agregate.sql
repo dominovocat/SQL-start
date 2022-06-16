@@ -75,6 +75,8 @@ CREATE TABLE phones_to_orders(
   PRIMARY KEY(order_id,phone_id)
 );
 
+--@block
+DELETE FROM prones_to_orders
 
 --@block
 INSERT INTO phones(model,brand,price,amount)
@@ -89,3 +91,21 @@ VALUES
 ('Galaxy','Samsung',1500,10),
 ('A 51','Samsung',4000,15),
 ('G20','OPPO',1500,20);
+
+
+--@block
+SELECT avg(price)
+FROM phones;
+
+--@block
+SELECT avg(price)
+FROM phones
+WHERE brand = 'Huawei';
+
+--@block
+SELECT avg(amount)
+FROM phones_to_orders;
+
+--@block
+SELECT sum(brand * price)
+FROM phones
