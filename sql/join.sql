@@ -63,3 +63,34 @@ WHERE order_id = 19;
 
 
 --@block
+SELECT count(*),u.email AS "order count" 
+FROM orders AS o
+JOIN users AS u ON o.user_id=u.id
+WHERE user_id = 4
+GROUP BY email;
+
+
+--@block
+SELECT count(o.id),u.* 
+FROM users as u
+JOIN orders as o ON u.id=o.user_id
+GROUP BY u.id;
+
+
+--@block
+SELECT o.*
+FROM orders as o
+JOIN phones_to_orders as pto ON pto.order_id=o.id
+WHERE pto.phone_id=1;
+
+
+--@block
+SELECT sum(amount)
+FROM phones_to_orders
+WHERE order_id=3;
+
+
+--@block
+SELECT * 
+FROM users as u
+JOIN orders as o ON o.user_id=u.id
