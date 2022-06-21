@@ -34,8 +34,8 @@ CREATE TABLE "teachers"(
   subject VARCHAR(32) REFERENCES subjects(subject)
 );
 
-b
-
+--@block
+SELECT * FROM users WHERE full_name ~*''
 
 
 
