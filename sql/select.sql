@@ -28,6 +28,6 @@ SELECT email,u.id,
 count(o.id) over(PARTITION by email) as user_orders 
 FROM users as u
 JOIN orders as o ON o.user_id=u.id
-LIMIT all;
+LIMIT 1;
 
 
