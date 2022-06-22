@@ -11,11 +11,15 @@ SELECT * FROM month_report(6);
 
 
 --@block
-CREATE OR REPLACE FUNCTION group_report(group int) RETURNS TABLE (group_id int, lessons_id int)
+CREATE OR REPLACE FUNCTION group_report(groups int) RETURNS TABLE (group_id int, lessons_id int)
 AS $$ 
 BEGIN RETURN QUERY
 SELECT u.id,o.lessons_id
-FROM group as u
+FROM groups as u
 JOIN group_to_lessons as o ON o.group_id=u.id 
-WHERE 
+WHERE o.group_id=groups;
+END;
  $$
+ LANGUAGE plpgsql;
+
+ SELECT * FROM group_report(1);
