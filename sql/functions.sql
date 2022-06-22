@@ -22,4 +22,7 @@ END;
  $$
  LANGUAGE plpgsql;
 
- SELECT * FROM group_report(1);
+ SELECT * FROM group_report(2);
+
+
+ 
