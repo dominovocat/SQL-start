@@ -9,7 +9,7 @@ User.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
-      primaryKey:true,
+      primaryKey: true,
     },
     full_name: {
       type: DataTypes.STRING,
@@ -20,21 +20,24 @@ User.init(
       allowNull: false,
       unique: true,
     },
-    country:{
-      type:DataTypes.STRING,
-      allowNull:true,
+    dob: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
     },
-    dob:{
-      type:DataTypes.DATEONLY,
-      allowNull:false,
+    country: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    tall:{
-      type:DataTypes.DECIMAL(3.2),
-      allowNull:false
+    tall: {
+      type: DataTypes.DECIMAL(3.2),
+      allowNull: false,
     },
   },
-  { tableName:'users',
-    sequelize: client }
+  { 
+    tableName: "users", 
+    sequelize: client, 
+    timestamps: false 
+  }
 );
 
 module.exports = User;

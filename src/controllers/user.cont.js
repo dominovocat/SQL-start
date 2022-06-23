@@ -1,4 +1,4 @@
-const { getUserById } = require("../services/user.service");
+const { getUserById, getUserList } = require("../services/user.service");
 
 module.exports.createUser = async () => {};
 
@@ -18,6 +18,9 @@ module.exports.getById = async (req, res, next) => {
 
 module.exports.getList = async (req, res, next) => {
 
+  // ?page=1&limit=10
+  const page = req.query.page||1;
+  const limit = req.query.limit||10;
   const userList = await getUserList(limit, page);
 
   res.status(200).send({ data: userList });
