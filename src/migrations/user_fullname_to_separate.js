@@ -1,33 +1,22 @@
 
-
-module.exports.up = async(client)=>{
-  //ALTER ADD COLUMN firstName, lastName
-
+module.exports.up = async (client) => {
+  // ALTER ADD COLUMN firstName, lastName
   await client.query(`
-  ALTER TABLE users
-  ADD COLUMN firstName VARCHAR(128) NOT NULL CHECK(char_length(firstName)>=3),
-  ADD COLUMN lastName VARCHAR(128) NOT NULL CHECK(char_length(firstName)>=3)
-  `);
-  //ALTER ADD COLUMN isMale
-
-  await client.query(`
-  ALTER TABLE users
-  ADD COLUMN isMale boolean NOT NULL
+    ALTER TABLE users
+      ADD COLUMN firstName varchar(16) NOT NULL CHECK(firstName != ''),
+      ADD COLUMN lastName varchar(16) NOT NULL CHECK(lastName != '')
   `);
 
-  //SELECT users 
+  // SELECT users
+  const users = await client.query(`
+    SELECT * FROM users;
+  `);
   
-    const users = await client.query(`
-    SELECT * FROM users
-    `);
-  //INSERT RANDOM isMale
+  // UPDATE users SET firstName = '', lastName = '' WHERE id
 
-  await Promise.all(
-    users.map()
-  )
-  // UPDATE users  SET firstName = '', lastName = ''
-  //WHERE id 
-  //DROP COLUMN full_name
+  // DROP COLUMN full_name
 
-  await client.query();
-};
+  await client.query(`
+
+  `);
+}
