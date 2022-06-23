@@ -1,17 +1,14 @@
 require("dotenv").config();
-const { Client } = require("pg");
-const { migrate } = require("./migrate");
+const http = require('http');
+const app = require("./app");
 
-const client = new Client();
+const httpServer = http.createServer(app);
 
-(async () => {
-  await client.connect();
+const port = process.env.PORT || 5000;
+httpServer.listen(port, () => {
+  console.log('App is listening on port', port);
+});
 
-  // await userQueries(client);
+/* https */
 
-  await migrate(client);
-
-  await client.end();
-  process.exit();
-})();
-// IIFE
+/* ws */
