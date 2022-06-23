@@ -30,4 +30,3 @@ FROM users as u
 JOIN orders as o ON o.user_id=u.id
 LIMIT 1;
 
-
